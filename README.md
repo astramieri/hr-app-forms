@@ -26,9 +26,7 @@ The application serves as a practical demonstration of how to design, implement,
 
 - **Oracle Forms & Reports**
     - Built with Oracle Fusion Middleware
-- **Oracle HR Schema**
-    - Uses the sample schema for relational data
 - **Oracle Database**
     - Supports the backend operations
-    
+
 Feel free to clone and modify the application for your own projects or learning purposes.
