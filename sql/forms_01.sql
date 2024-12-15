@@ -1,0 +1,1 @@
+select * from emp_details_view;
