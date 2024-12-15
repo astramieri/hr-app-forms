@@ -1,1 +1,4 @@
-select * from emp_details_view;
+SELECT
+    *
+FROM
+    emp_details_view;
