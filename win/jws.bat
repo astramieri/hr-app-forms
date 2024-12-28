@@ -1,3 +1,5 @@
-REM Java Web Start (JDK8 required) 
+REM Usage: jws.bat <hostname>
 
-javaws "http://localhost:9001/forms/frmservlet?config=hr-app"
+SET SERVER=%1
+
+javaws "http://%SERVER%:9001/forms/frmservlet?config=hr-app"
