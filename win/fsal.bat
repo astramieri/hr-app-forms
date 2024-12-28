@@ -1,6 +1,4 @@
-REM Add the following parameters to application configuration section
-REM baseSAAfile=webutilsaa.txt
-REM fsalcheck=true
+SET BASE_DIR=%~dp0
+SET BASE_DIR=%BASE_DIR:~0,-1%
 
-REM Oracle Forms Stand Alone Launcher (FSAL)
-java -jar frmsal.jar -url "http://localhost:9001/forms/frmservlet?config=hr-app"
+java -jar "%BASE_DIR%\..\lib\frmsal.jar" -url "http://localhost:9001/forms/frmservlet?config=hr-app"
