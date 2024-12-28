@@ -2,7 +2,9 @@
 
 export JAVA_HOME=/usr/java/jdk1.8.0-x64
 
-export FORMS_INSTANCE=/home/oracle/FormsBuilder/instance/forms1
+export ORACLE_HOME=/home/oracle/FormsBuilder
+
+export FORMS_INSTANCE=$ORACLE_HOME/instance/forms1
 
 export SRC_DIR=/home/oracle/hr-app-forms/src
 export BIN_DIR=/home/oracle/hr-app-forms/bin
