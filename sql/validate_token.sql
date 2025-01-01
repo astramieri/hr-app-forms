@@ -29,6 +29,8 @@ begin
     if apex_authentication.is_public_user then
         if v_jwt_user is not null then
             apex_authentication.post_login(p_username => v_jwt_user);
+        else
+            return false;
         end if;
     elsif apex_application.g_user <> v_jwt_user then
         return false;
