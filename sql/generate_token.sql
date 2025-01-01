@@ -7,7 +7,7 @@ begin
         p_iss           => 'FORMS',
         p_sub           => p_user_name,
         p_exp_sec       => 60, -- 60 second
-        p_signature_key => utl_raw.cast_to_raw('my-secret-key')
+        p_signature_key => utl_raw.cast_to_raw('my-secret-key') -- TOFIX
     );
 
     return v_jwt;
