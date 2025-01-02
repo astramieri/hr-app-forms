@@ -29,6 +29,12 @@ begin
     if apex_authentication.is_public_user then
         if v_jwt_user is not null then
             apex_authentication.post_login(p_username => v_jwt_user);
+            
+            apex_acl.replace_user_roles (
+                p_application_id => 100, -- TOFIX
+                p_user_name      => v_jwt_user,
+                p_role_ids       => apex_t_number('5975716574509514')
+            );
         else
             return false;
         end if;
