@@ -6,6 +6,9 @@ is
     v_jwt apex_jwt.t_token;
     
     v_jwt_user varchar2(255);
+    v_jwt_role varchar2(255);
+    
+    v_application_id pls_integer := 100; -- TOFIX
 begin
     v_x01 := v('APP_AJAX_X01');
 
@@ -21,20 +24,32 @@ begin
             p_aud   => 'APEX'
         );
 
-        apex_json.parse (p_source => v_jwt.payload );
+        apex_json.parse(p_source => v_jwt.payload);
         
         v_jwt_user := apex_json.get_varchar2('sub');
+        
+        v_jwt_role := 'ADMIN_ROLE';
     end if;
     
     if apex_authentication.is_public_user then
         if v_jwt_user is not null then
-            apex_authentication.post_login(p_username => v_jwt_user);
-            
-            apex_acl.replace_user_roles (
-                p_application_id => 100, -- TOFIX
-                p_user_name      => v_jwt_user,
-                p_role_ids       => apex_t_number('5975716574509514')
-            );
+            declare
+                v_role_id apex_appl_acl_roles.role_id%type;
+            begin
+                apex_authentication.post_login(p_username => v_jwt_user);
+                
+                select role_id
+                  into v_role_id
+                  from apex_appl_acl_roles
+                 where application_id = v_application_id
+                   and role_static_id = v_jwt_role;
+                
+                apex_acl.replace_user_roles (
+                    p_application_id => v_application_id, -- TOFIX
+                    p_user_name      => v_jwt_user,
+                    p_role_ids       => apex_t_number(v_role_id)
+                );
+            end;
         else
             return false;
         end if;
