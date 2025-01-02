@@ -28,27 +28,30 @@ begin
         
         v_jwt_user := apex_json.get_varchar2('sub');
         
-        v_jwt_role := 'ADMIN_ROLE';
+        v_jwt_role := 'USER_ROLE';
     end if;
     
     if apex_authentication.is_public_user then
         if v_jwt_user is not null then
+            apex_authentication.post_login(p_username => v_jwt_user);
+            
             declare
                 v_role_id apex_appl_acl_roles.role_id%type;
             begin
-                apex_authentication.post_login(p_username => v_jwt_user);
-                
                 select role_id
                   into v_role_id
                   from apex_appl_acl_roles
                  where application_id = v_application_id
                    and role_static_id = v_jwt_role;
-                
+                    
                 apex_acl.replace_user_roles (
-                    p_application_id => v_application_id, -- TOFIX
+                    p_application_id => v_application_id,
                     p_user_name      => v_jwt_user,
                     p_role_ids       => apex_t_number(v_role_id)
                 );
+            exception
+                when others then
+                    null; -- TOFIX
             end;
         else
             return false;

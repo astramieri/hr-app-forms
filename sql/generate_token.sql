@@ -10,7 +10,7 @@ begin
         p_iss           => 'FORMS',
         p_aud           => 'APEX',
         p_sub           => p_username,
-        p_exp_sec       => 60, -- 60 second
+        p_exp_sec       => 60, -- 60 seconds
         p_other_claims  => '"role":' || apex_json.stringify(p_role),
         p_signature_key => utl_raw.cast_to_raw('my-secret-key') -- TOFIX
     );
