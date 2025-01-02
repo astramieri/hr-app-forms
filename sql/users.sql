@@ -37,12 +37,12 @@ end users_trg_01;
 /
 
 insert into hr.users (username, password, role) 
-              values ('ADMIN', 
+              values ('admin', 
                       'admin#123',
                       'ADMIN_ROLE');
 
 insert into hr.users (username, password, role) 
-              values ('USER', 
+              values ('user', 
                       'user#123',
                       'USER_ROLE');
 
