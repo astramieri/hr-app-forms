@@ -44,7 +44,12 @@ begin
     
     if apex_authentication.is_public_user then
         if v_jwt_user is not null then
-            apex_authentication.post_login(p_username => v_jwt_user);
+            --apex_authentication.post_login(p_username => v_jwt_user);
+            
+            APEX_CUSTOM_AUTH.POST_LOGIN (
+                p_uname       => v_jwt_user,
+                p_session_id  => V('APP_SESSION'),
+                p_app_page    => '101:2');
 
             apex_acl.replace_user_roles (
                 p_application_id  => v_application_id,

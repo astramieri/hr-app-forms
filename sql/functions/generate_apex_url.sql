@@ -15,11 +15,22 @@ begin
       into v_apex
       from apex a;
 
+    -- TRADITIONAL
+    -- <protocol>://<hostname>:<port>/ords/f?p=201:1::APEX_AUTHENTICATION=OFFICE365
+    
+    -- FRIENDLY
 	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>?x01=<token>
 	
 	v_url := v_url || v_apex.protocol || '://' || v_apex.hostname || ':' || v_apex.port;
-	v_url := v_url || '/ords/r/' || v_apex.workspace || '/' || v_apex.application;
-	v_url := v_url || '/' || v_apex.page || '?x01=' || v_jwt;    
+	
+    -- TRADITIONAL
+    v_url := v_url || '/ords/f?p=101:2:0:APEX_AUTHENTICATION=JWT';
+
+    -- FRIENDLY
+    --v_url := v_url || '/ords/r/' || v_apex.workspace || '/' || v_apex.application;
+	--v_url := v_url || '/' || v_apex.page || '?request=APEX_AUTHENTICATION=JWT';
+    
+    v_url := v_url || chr(38) || 'x01=' || v_jwt;
 
     return v_url;
 end generate_apex_url;
