@@ -4,7 +4,7 @@ create table hr.apex (
    id           number(10)      not null, 
    protocol     varchar2(100)   not null,  
    hostname     varchar2(100)   not null,  
-   port         varchar2(100)   not null,  
+   port         varchar2(100),  
    workspace    varchar2(100)   not null,  
    application  varchar2(100)   not null,  
    created      timestamp(6)    not null,

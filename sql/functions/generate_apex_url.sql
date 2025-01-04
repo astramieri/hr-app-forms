@@ -19,9 +19,20 @@ begin
     -- FRIENDLY
 	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>?request=<request>&x01=<token>
 	
-	v_url := v_url || v_apex.protocol || '://' || v_apex.hostname || ':' || v_apex.port;
-    v_url := v_url || '/ords/r/' || v_apex.workspace || '/' || v_apex.application;
-	v_url := v_url || '/' || p_page || '?request=APEX_AUTHENTICATION=JWT';
+	v_url := v_url || v_apex.protocol || '://' || v_apex.hostname;
+    
+    if v_apex.port is not null then
+        v_url := v_url || ':' || v_apex.port;
+    end if;
+    
+    v_url := v_url || '/ords/r/' || v_apex.workspace;
+    
+    v_url := v_url || '/' || v_apex.application;
+    
+	v_url := v_url || '/' || p_page;
+    
+    v_url := v_url|| '?request=APEX_AUTHENTICATION=JWT';
+    
     v_url := v_url || chr(38) || 'x01=' || v_jwt;
 
     return v_url;
