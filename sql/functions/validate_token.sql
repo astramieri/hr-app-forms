@@ -1,8 +1,6 @@
 create or replace function hr.validate_token
     return boolean 
-is    
-    v_x01 varchar2(32767);
-    
+is
     v_jwt apex_jwt.t_token;
     
     v_jwt_user varchar2(100);
@@ -12,23 +10,22 @@ is
     
     v_application_id pls_integer;
     v_page_id        pls_integer;
+    
+    v_x01 varchar2(32767);
 begin
-    v_application_id := v('APP_ID'); --apex_application.g_flow_id;
+    v_application_id := v('APP_ID');
     v_page_id        := v('APP_PAGE_ID');
-
-    v_x01 := v('APP_AJAX_X01');
+    v_x01            := v('APP_AJAX_X01');
 
     if v_x01 like '%.%.%' then
         v_jwt := apex_jwt.decode (
             p_value         => v_x01,
-            p_signature_key => sys.utl_raw.cast_to_raw('my-secret-key')
-        );
+            p_signature_key => sys.utl_raw.cast_to_raw('my-secret-key'));
                     
         apex_jwt.validate (
             p_token => v_jwt,
             p_iss   => 'FORMS',
-            p_aud   => 'APEX'
-        );
+            p_aud   => 'APEX');
 
         apex_json.parse(p_source => v_jwt.payload);
         
