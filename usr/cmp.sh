@@ -13,7 +13,4 @@ $FORMS_INSTANCE/bin/frmcmp.sh module_type=form module=$SRC_DIR/login.fmb output_
 $FORMS_INSTANCE/bin/frmcmp.sh module_type=form module=$SRC_DIR/console.fmb output_file=$BIN_DIR/console.fmx userid=$DB_CONNECT_STRING batch=no compile_all=yes 
 $FORMS_INSTANCE/bin/frmcmp.sh module_type=form module=$SRC_DIR/employees.fmb output_file=$BIN_DIR/employees.fmx userid=$DB_CONNECT_STRING batch=no compile_all=yes 
 
-#$FORMS_INSTANCE/bin/frmcmp.sh module_type=form module=$SRC_DIR/employee_list.fmb output_file=$BIN_DIR/employee_list.fmx userid=$DB_CONNECT_STRING batch=no compile_all=yes 
-#$FORMS_INSTANCE/bin/frmcmp.sh module_type=form module=$SRC_DIR/employee_edit.fmb output_file=$BIN_DIR/employee_edit.fmx userid=$DB_CONNECT_STRING batch=no compile_all=yes 
-
 git restore $SRC_DIR/*.fmb
