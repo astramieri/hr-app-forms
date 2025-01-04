@@ -11,8 +11,10 @@ is
     v_jwt_elts apex_t_varchar2;
     
     v_application_id pls_integer;
+    v_page_id        pls_integer;
 begin
-    v_application_id := apex_application.g_flow_id;
+    v_application_id := v('APP_ID'); --apex_application.g_flow_id;
+    v_page_id        := v('APP_PAGE_ID');
 
     v_x01 := v('APP_AJAX_X01');
 
@@ -46,10 +48,10 @@ begin
         if v_jwt_user is not null then
             --apex_authentication.post_login(p_username => v_jwt_user);
             
-            APEX_CUSTOM_AUTH.POST_LOGIN (
+            apex_custom_auth.post_login (
                 p_uname       => v_jwt_user,
-                p_session_id  => V('APP_SESSION'),
-                p_app_page    => '101:2');
+                p_session_id  => v('APP_SESSION'),
+                p_app_page    => v_application_id || ':' || v_page_id);
 
             apex_acl.replace_user_roles (
                 p_application_id  => v_application_id,

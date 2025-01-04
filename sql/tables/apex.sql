@@ -7,7 +7,6 @@ create table hr.apex (
    port         varchar2(100)   not null,  
    workspace    varchar2(100)   not null,  
    application  varchar2(100)   not null,  
-   page         varchar2(100)   not null,
    created      timestamp(6)    not null,
    updated      timestamp(6)    not null
 );
@@ -35,16 +34,14 @@ insert into hr.apex (
     hostname,
     port,
     workspace,
-    application,
-    page
+    application
 ) values (
     100,
     'http', 
     'localhost',
     '8080',
     'hr_dev',
-    'hr-app',
-    'home'
+    'hr-app'
 );
 
 commit;

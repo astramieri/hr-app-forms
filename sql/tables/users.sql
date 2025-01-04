@@ -37,13 +37,13 @@ end users_trg_01;
 /
 
 insert into hr.users (username, password, role) 
-              values ('admin', 
-                      'admin#123',
+              values ('alice', 
+                      'alice#123',
                       'ADMIN_ROLE');
 
 insert into hr.users (username, password, role) 
-              values ('user', 
-                      'user#123',
+              values ('bob', 
+                      'bob#123',
                       'USER_ROLE');
 
 commit;

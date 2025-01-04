@@ -1,6 +1,7 @@
 create or replace function generate_apex_url(
     p_user in varchar2,
-    p_role in varchar2
+    p_role in varchar2,
+    p_page in varchar2
 )
     return varchar2
 is
@@ -15,21 +16,12 @@ begin
       into v_apex
       from apex a;
 
-    -- TRADITIONAL
-    -- <protocol>://<hostname>:<port>/ords/f?p=201:1::APEX_AUTHENTICATION=OFFICE365
-    
     -- FRIENDLY
-	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>?x01=<token>
+	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>?request=<request>&x01=<token>
 	
 	v_url := v_url || v_apex.protocol || '://' || v_apex.hostname || ':' || v_apex.port;
-	
-    -- TRADITIONAL
-    v_url := v_url || '/ords/f?p=101:2:0:APEX_AUTHENTICATION=JWT';
-
-    -- FRIENDLY
-    --v_url := v_url || '/ords/r/' || v_apex.workspace || '/' || v_apex.application;
-	--v_url := v_url || '/' || v_apex.page || '?request=APEX_AUTHENTICATION=JWT';
-    
+    v_url := v_url || '/ords/r/' || v_apex.workspace || '/' || v_apex.application;
+	v_url := v_url || '/' || p_page || '?request=APEX_AUTHENTICATION=JWT';
     v_url := v_url || chr(38) || 'x01=' || v_jwt;
 
     return v_url;
