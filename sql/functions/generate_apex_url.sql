@@ -18,9 +18,8 @@ begin
       from apex a;
 
     -- FRIENDLY
-	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>
-    -- ?request=<request>&x01=<token>&itemNames=P5_ITEM1,P5_ITEM2&itemValues=VALUE1,VALUE2
-    
+	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>?request=<request>&x01=<token>&P5_ITEM1=VALUE1
+
 	v_url := v_url || v_apex.protocol || '://' || v_apex.hostname;
     
     if v_apex.port is not null then
