@@ -35,8 +35,6 @@ begin
     v_url := v_url|| '?request=APEX_AUTHENTICATION=JWT';
     
     v_url := v_url || chr(38) || 'x01=' || v_jwt;
-    
-    --v_url := v_url || ':::P5_EMPLOYEE_ID:104';
 
     return v_url;
 end compose_url;
