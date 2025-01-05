@@ -31,7 +31,10 @@ begin
 
         apex_json.parse(p_source => v_jwt.payload);
         
+        insert_log(v_jwt.payload);
+        
         v_jwt_user := apex_json.get_varchar2('sub');
+        
         v_jwt_elts := apex_json.get_members('.');
     end if;
     
@@ -43,25 +46,22 @@ begin
                 p_uname       => v_jwt_user,
                 p_session_id  => v('APP_SESSION'),
                 p_app_page    => v_application_id || ':' || v_page_id);
-                
-            apex_acl.replace_user_roles (
-                p_application_id  => v_application_id,
-                p_user_name       => v_jwt_user,
-                p_role_static_ids => apex_t_varchar2('USER_ROLE'));   
             
---            for i in 1 .. v_jwt_elts.count 
---            loop
---                if v_jwt_elts(i) like '%role%' then
---                    apex_acl.replace_user_roles (
---                        p_application_id  => v_application_id,
---                        p_user_name       => v_jwt_user,
---                        p_role_static_ids => apex_t_varchar2(v_jwt_elts(i)));                
---                else
---                    apex_util.set_session_state (
---                        p_name  => v_jwt_elts(i),
---                        p_value => apex_json.get_varchar2(v_jwt_elts(i)));
---                end if;
---            end loop;
+            for i in 1 .. v_jwt_elts.count 
+            loop
+                insert_log(v_jwt_elts(i) || ' ' || apex_json.get_varchar2(v_jwt_elts(i)));
+            
+                if v_jwt_elts(i) like '%role%' then
+                    apex_acl.replace_user_roles (
+                        p_application_id  => v_application_id,
+                        p_user_name       => v_jwt_user,
+                        p_role_static_ids => apex_t_varchar2(apex_json.get_varchar2(v_jwt_elts(i))));   
+                elsif upper(v_jwt_elts(i)) like 'P%' then
+                    apex_util.set_session_state (
+                        p_name  => upper(v_jwt_elts(i)),
+                        p_value => apex_json.get_varchar2(v_jwt_elts(i)));
+                end if;
+            end loop;
         else
             return false;
         end if;

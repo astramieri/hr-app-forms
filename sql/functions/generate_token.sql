@@ -7,7 +7,7 @@ create or replace function hr.generate_token (
 is    
     v_jwt varchar2(32767); 
     
-    v_other_claims varchar2(1000);
+    v_claims varchar2(1000);
     
     v_params apex_t_varchar2;
     v_values apex_t_varchar2;
@@ -17,23 +17,21 @@ begin
     
     for i in 1 .. v_params.count 
     loop
-        if v_other_claims is not null then
-            v_other_claims := v_other_claims || ',';
+        if v_claims is not null then
+            v_claims := v_claims || ',';
         end if;
     
-        v_other_claims := apex_json.stringify(v_params(i));
-        v_other_claims := ':';
-        v_other_claims := apex_json.stringify(v_values(i));
+        v_claims := v_claims || apex_json.stringify(v_params(i));
+        v_claims := v_claims || ':';
+        v_claims := v_claims || apex_json.stringify(v_values(i));
     end loop;
-
-    insert_log(v_other_claims);
 
     v_jwt := apex_jwt.encode (
         p_iss           => 'FORMS',
         p_aud           => 'APEX',
         p_sub           => p_user,
         p_exp_sec       => 60 * 5, -- 5 minutes
-        p_other_claims  => v_other_claims,
+        p_other_claims  => v_claims,
         p_signature_key => utl_raw.cast_to_raw('my-secret-key')
     );
 
