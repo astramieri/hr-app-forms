@@ -1,7 +1,8 @@
 create or replace function generate_apex_url(
-    p_user in varchar2,
-    p_role in varchar2,
-    p_page in varchar2
+    p_user   in varchar2,
+    p_role   in varchar2,
+    p_page   in varchar2,
+    p_params in varchar2 default null
 )
     return varchar2
 is
@@ -17,8 +18,9 @@ begin
       from apex a;
 
     -- FRIENDLY
-	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>?request=<request>&x01=<token>
-	
+	-- <protocol>://<hostname>:<port>/ords/r/<workspace>/<application>/<page>
+    -- ?request=<request>&x01=<token>&itemNames=P5_ITEM1,P5_ITEM2&itemValues=VALUE1,VALUE2
+    
 	v_url := v_url || v_apex.protocol || '://' || v_apex.hostname;
     
     if v_apex.port is not null then
@@ -34,6 +36,10 @@ begin
     v_url := v_url|| '?request=APEX_AUTHENTICATION=JWT';
     
     v_url := v_url || chr(38) || 'x01=' || v_jwt;
+
+    if p_params is not null then
+        v_url := v_url || p_params;
+    end if;
 
     return v_url;
 end generate_apex_url;
