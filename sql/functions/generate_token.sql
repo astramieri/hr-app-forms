@@ -21,10 +21,12 @@ begin
             v_other_claims := v_other_claims || ',';
         end if;
     
-        v_other_claims := '"' || v_params(i) || '"';
+        v_other_claims := apex_json.stringify(v_params(i));
         v_other_claims := ':';
         v_other_claims := apex_json.stringify(v_values(i));
     end loop;
+    
+    v_other_claims := '"role":"ADMIN_ROLE"';
 
     v_jwt := apex_jwt.encode (
         p_iss           => 'FORMS',
