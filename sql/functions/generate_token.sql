@@ -25,8 +25,8 @@ begin
         v_other_claims := ':';
         v_other_claims := apex_json.stringify(v_values(i));
     end loop;
-    
-    v_other_claims := '"role":"ADMIN_ROLE"';
+
+    insert_log(v_other_claims);
 
     v_jwt := apex_jwt.encode (
         p_iss           => 'FORMS',

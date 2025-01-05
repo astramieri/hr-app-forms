@@ -33,8 +33,6 @@ begin
         
         v_jwt_user := apex_json.get_varchar2('sub');
         v_jwt_elts := apex_json.get_members('.');
-        
-        
     end if;
     
     if apex_authentication.is_public_user then
