@@ -31,8 +31,6 @@ begin
 
         apex_json.parse(p_source => v_jwt.payload);
         
-        insert_log(v_jwt.payload);
-        
         v_jwt_user := apex_json.get_varchar2('sub');
         
         v_jwt_elts := apex_json.get_members('.');
@@ -48,9 +46,7 @@ begin
                 p_app_page    => v_application_id || ':' || v_page_id);
             
             for i in 1 .. v_jwt_elts.count 
-            loop
-                insert_log(v_jwt_elts(i) || ' ' || apex_json.get_varchar2(v_jwt_elts(i)));
-            
+            loop            
                 if v_jwt_elts(i) like '%role%' then
                     apex_acl.replace_user_roles (
                         p_application_id  => v_application_id,
