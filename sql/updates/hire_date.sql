@@ -1,6 +1,6 @@
 update employees j
 set
-    j.hire_date = add_months(j.hire_date, 12 * 7)
+    j.hire_date = add_months(j.hire_date, 12 * 9)
 where
     j.employee_id in (
         select
@@ -16,8 +16,8 @@ where
                 where
                     h.employee_id = e.employee_id
             )
-                and extract(year from e.hire_date) = 2017
+                and extract(year from e.hire_date) = 2015
         order by
             e.hire_date asc
-        fetch first 3 rows only
+        fetch first 4 rows only
     );
