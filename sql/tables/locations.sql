@@ -1,8 +1,8 @@
 --alter table locations drop column latitude;
 --alter table locations drop column longitude;
 
---alter table locations add latitude  number;
---alter table locations add longitude number;
+alter table locations add latitude  number;
+alter table locations add longitude number;
 
 update locations
    set latitude  = +32.94169852186318, 
