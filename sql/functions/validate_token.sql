@@ -11,6 +11,8 @@ is
     v_application_id pls_integer;
     v_page_id        pls_integer;
     
+    v_session_id number;
+    
     v_x01 varchar2(32767);
 begin
     v_application_id := v('APP_ID');
@@ -38,11 +40,19 @@ begin
     
     if apex_authentication.is_public_user then
         if v_jwt_user is not null then
-            --apex_authentication.post_login(p_username => v_jwt_user);
+            v_session_id := apex_custom_auth.get_session_id_from_cookie;
+                        
+            if v_session_id is not null then
+                if not apex_custom_auth.is_session_valid then
+                    v_session_id := apex_custom_auth.get_next_session_id;
+                end if;
+            else
+                v_session_id := apex_custom_auth.get_next_session_id;
+            end if;
             
             apex_custom_auth.post_login (
                 p_uname       => v_jwt_user,
-                p_session_id  => v('APP_SESSION'),
+                p_session_id  => v_session_id,
                 p_app_page    => v_application_id || ':' || v_page_id);
             
             for i in 1 .. v_jwt_elts.count 
